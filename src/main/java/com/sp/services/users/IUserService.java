@@ -1,4 +1,4 @@
-package com.sp.users;
+package com.sp.services.users;
 
 import com.sp.entities.User;
 

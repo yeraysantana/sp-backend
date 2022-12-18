@@ -22,14 +22,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name="users")
-public class User {
+@Table(name="payments")
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    private String name;
-    private String surname;
-    private String email;
+    @Column(name = "id_user")
+    private Long idUser;
+    @Column(name = "id_group")
+    private Long idGroup;
+    private int amount;
+    private String description;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
