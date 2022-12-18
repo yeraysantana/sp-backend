@@ -39,7 +39,7 @@ public class UserController {
 
     @PostMapping("/user")
     public User addUser(@RequestBody User user){
-        logger.info("-> UserController addUser...");
+        logger.info("-> UserController addUser... "+ user);
         return userService.addUser(user);
     }
 }
