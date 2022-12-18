@@ -1,7 +1,7 @@
 package com.sp.config;
 
 import com.sp.services.groups.GroupService;
-import com.sp.services.payments.PaymentService;
+import com.sp.services.ledgerentries.LedgerEntryService;
 import com.sp.services.users.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +25,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public PaymentService paymentBeanService(){
+    public LedgerEntryService ledgerEntryBeanService(){
         logger.info("-> paymentBeanService...");
-        return new PaymentService();
+        return new LedgerEntryService();
     }
 }

@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,16 +23,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name="payments")
-public class Payment {
+@Table(name="transactions")
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    @Column(name = "id_user")
-    private Long idUser;
-    @Column(name = "id_group")
-    private Long idGroup;
-    private int amount;
     private String description;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
