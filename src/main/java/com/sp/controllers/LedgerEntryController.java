@@ -3,7 +3,7 @@ package com.sp.controllers;
 import java.util.Optional;
 
 import com.sp.entities.LedgerEntry;
-import com.sp.objects.UserLedgerEntryBalance;
+import com.sp.payloads.users.UserLedgerEntryPayload;
 import com.sp.services.ledgerentries.ILedgerEntryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +37,10 @@ public class LedgerEntryController {
         return ledgerEntryService.getLedgerEntry(id);
     }
 
-    @GetMapping("/payments/{id}/balance")
-    public Iterable<UserLedgerEntryBalance> getUserLedgerEntriesBalancesByIdTransaction(@PathVariable Long id){
+    @GetMapping("/payments/transaction/{id}")
+    public Iterable<UserLedgerEntryPayload> getUserLedgerEntriesByIdTransaction(@PathVariable Long id){
         logger.info("-> LedgerEntriesController getUserLedgerEntriesBalanceByIdTransaction: " + id);
-        return ledgerEntryService.getUserLedgerEntriesBalancesByIdTransaction(id);
+        return ledgerEntryService.getUserLedgerEntriesByIdTransaction(id);
     }
 
     @PostMapping("/payment")

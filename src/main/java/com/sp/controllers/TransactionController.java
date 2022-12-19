@@ -14,7 +14,7 @@ import java.util.Optional;
 public class TransactionController {
     private Logger logger = LoggerFactory.getLogger(TransactionController.class);
 
-    @Autowired
-    private ITransactionService transactionService;
+//    @Autowired
+//    private ITransactionService transactionService;
 
 }

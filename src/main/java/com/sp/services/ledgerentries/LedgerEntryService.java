@@ -3,13 +3,15 @@ package com.sp.services.ledgerentries;
 import com.sp.entities.Group;
 import com.sp.entities.LedgerEntry;
 import com.sp.entities.User;
-import com.sp.objects.UserLedgerEntryBalance;
-import com.sp.repositories.GroupRepository;
+import com.sp.payloads.users.UserLedgerEntryBalancePayload;
+import com.sp.payloads.users.UserLedgerEntryPayload;
 import com.sp.repositories.LedgerEntryRepository;
-import com.sp.repositories.UserRepository;
 import com.sp.services.groups.IGroupService;
+import com.sp.services.transaction.ITransactionService;
 import com.sp.services.users.IUserService;
-import com.sp.services.users.UserService;
+import com.sp.shared.utils.CustomUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import java.util.Optional;
 
 @Service
 public class LedgerEntryService implements ILedgerEntryService {
+    private Logger logger = LoggerFactory.getLogger(LedgerEntryService.class);
+    private CustomUtils customUtils;
 
     @Autowired
     private LedgerEntryRepository ledgerEntryRepository;
@@ -37,17 +41,33 @@ public class LedgerEntryService implements ILedgerEntryService {
     }
 
     @Override
-    public Iterable<UserLedgerEntryBalance> getUserLedgerEntriesBalancesByIdTransaction(Long idTransaction) {
+    public Iterable<UserLedgerEntryPayload> getUserLedgerEntriesByIdTransaction(Long idTransaction) {
         ArrayList<LedgerEntry> ledgerEntriesList = ledgerEntryRepository.findByIdTransaction(idTransaction);
-        ArrayList<UserLedgerEntryBalance> userLedgerEntriesBalanceList = new ArrayList<>();
+        ArrayList<UserLedgerEntryPayload> userLedgerEntriesBalanceList = new ArrayList<>();
         ledgerEntriesList.forEach(ledgerEntry -> {
-            final Optional<User> user = userService.getUser(ledgerEntry.getIdUser());
-            final Optional<Group> group = groupService.getGroup(ledgerEntry.getIdGroup());
+            Optional<User> user = userService.getUser(ledgerEntry.getIdUser());
+            Optional<Group> group = groupService.getGroup(ledgerEntry.getIdGroup());
+            String userCompleteName = user.get().getName() + " " + user.get().getSurname();
+            String groupName = group.get().getName();
             if(user.isPresent() && group.isPresent()){
-                final UserLedgerEntryBalance userLedgerEntryBalance = new UserLedgerEntryBalance(user, group, ledgerEntry.getPayType(), ledgerEntry.getAmount());
-                userLedgerEntriesBalanceList.add(userLedgerEntryBalance);
+                UserLedgerEntryPayload userLedgerEntryPayload =
+                    new UserLedgerEntryPayload(
+                            userCompleteName,
+                            groupName,
+                            ledgerEntry.getDescription(),
+                            ledgerEntry.getPayType(),
+                            ledgerEntry.getAmount(),
+                            ledgerEntry.getCreatedAt().toString()
+                    );
+                userLedgerEntriesBalanceList.add(userLedgerEntryPayload);
             }
         });
+        return userLedgerEntriesBalanceList;
+    }
+
+    @Override
+    public Iterable<UserLedgerEntryBalancePayload> getUserLedgerEntriesBalancesByIdGroup(Long idGroup) {
+        ArrayList<UserLedgerEntryBalancePayload> userLedgerEntriesBalanceList = new ArrayList<>();
         return userLedgerEntriesBalanceList;
     }
 

@@ -1,23 +1,21 @@
-package com.sp.objects;
+package com.sp.payloads.users;
 
-import com.sp.entities.Group;
-import com.sp.entities.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Optional;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserLedgerEntryBalance {
-    private Optional<User> user;
-    private Optional<Group> group;
+public class UserLedgerEntryPayload {
+    private String userName;
+    private String groupName;
+    private String description;
     private String ledgerEntryType;
     private int paymentAmount;
+    private String createdAt;
 }
